@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calendar</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+	<% if current_user %>
+		<!-- share top menu across views (except for sign in page) -->
+		<%= render :partial => "shared/menu" %>
+	<% end %>
+<%= yield %>
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+<%= form_for @user, :url => add_department_to_user_url(@user) do |f| %>
+	<%= f.label :department_name %>
+	<%= f.select :departments, departments_for_select %>
+
+	<%= f.submit "Join department" %>
+<% end %>

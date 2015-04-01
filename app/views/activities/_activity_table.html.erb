@@ -1,0 +1,27 @@
+<div class = "ActivityTable">
+<table>
+	<tr>
+		<td> Summary </td>
+		<td> Tag </td>
+		<td> Long Description </td>
+		<td> Date Started </td>
+		<td> Date Completed </td>
+		<td> Status </td>
+	</tr>
+	<% @activities.each do |el| %>
+		<tr>
+			<td> <%= link_to el.overview, activity_path(el.id) %> </td>
+			<td> <%=h el.tag %> </td>
+			<td> <%=h el.content %> </td>
+			<td> <%=h el.started %> </td>
+			<% if el.finished.nil? %>
+				<td> N/A </td>
+			<% else %>
+				<td> <%=h el.finished %> </td>
+			<% end %>
+			<td> <%=h el.status %> </td>
+		</tr>
+	<% end %>
+</table>
+</div>
+

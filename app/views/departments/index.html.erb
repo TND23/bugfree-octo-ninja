@@ -1,0 +1,17 @@
+<table class="ActivityTable">
+	<tr>
+		<td> Department Name </td>
+		<td> Department Members </td>
+	</tr>
+	<% @departments.each do |d| %>
+		<tr>
+			<td> <%=h d.dept_name %> </td>
+			<td> 
+				<% d.users.each do |u| %> 
+					<!-- link to this users calendar -->
+					<%= u.username %>
+				<% end %>
+			</td>
+		</tr>	
+	<% end %>
+</table>

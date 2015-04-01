@@ -1,0 +1,18 @@
+<%= form_tag search_activities_url(@activities), :method => 'get' do |f| %>
+
+	<%= label_tag "Search for" %>
+
+	<%= text_field_tag :search, params[:search] %>
+
+	<%= label_tag "By" %>
+
+	<%= select_tag :search_by, options_for_select(["Tag", "Status"]) %>
+
+	<%= label_tag "Belonging to" %>
+
+	<% belonging_selections = ["Me", "All users"] + current_user.departments.collect{|department| department.dept_name} %>
+	<%= select_tag :owned_by, options_for_select(belonging_selections) %>
+
+	<%= submit_tag "OK" %>
+<% end %>
+

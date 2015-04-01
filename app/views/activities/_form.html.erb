@@ -1,0 +1,21 @@
+<%= form_for @activity do |f| %>
+	<%= f.label :tag %> 
+	<%= f.text_field :tag %>
+
+	<%= f.label :overview %> 
+	<%= f.text_field :overview %>
+
+	<%= f.label :status %> 
+	<%= f.select :status, options_for_select(['New', 'In Progress', 'Completed']) %>
+
+	<%= f.label :started %>
+	<%= f.date_select :started %>
+ 
+	<%= f.label :finished %>
+	<%= f.date_select :finished, :include_blank => true %>
+	<br>
+	<%= f.label :content %> 
+	<%= f.text_area :content %>
+	<br>
+	<%= f.submit %>
+<% end %>

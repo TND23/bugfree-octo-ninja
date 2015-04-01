@@ -9,8 +9,8 @@
 	<%= select_tag :search_by, options_for_select(["Tag", "Status"]) %>
 
 	<%= label_tag "Belonging to" %>
-
-	<% belonging_selections = ["Me", "All users"] + current_user.departments.collect{|department| department.dept_name} %>
+	<!-- belonging_selections = ["Me", "All users"]  + current_user.departments.collect{|department| department.dept_name} -->
+	<% belonging_selections = ["Me", "All users"] %>
 	<%= select_tag :owned_by, options_for_select(belonging_selections) %>
 
 	<%= submit_tag "OK" %>

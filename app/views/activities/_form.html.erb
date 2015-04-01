@@ -9,10 +9,10 @@
 	<%= f.select :status, options_for_select(['New', 'In Progress', 'Completed']) %>
 
 	<%= f.label :started %>
-	<%= f.date_select :started %>
+	<%= f.datetime_select(:started, :default => {:hour => 12, :minute => 0}) %>
  
 	<%= f.label :finished %>
-	<%= f.date_select :finished, :include_blank => true %>
+	<%= f.datetime_select :finished, :include_blank => true %>
 	<br>
 	<%= f.label :content %> 
 	<%= f.text_area :content %>

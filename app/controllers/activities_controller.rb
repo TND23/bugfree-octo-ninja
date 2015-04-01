@@ -19,7 +19,9 @@ class ActivitiesController < ApplicationController
     if @activity.update_attributes(params[:activity])
       redirect_to @activity
     else 
+      binding.pry
       respond_to do |format|
+        format.js { render @activity }
         format.json { render :json => @activity.errors, :status => :unprocessable_entity }
       end
     end
@@ -52,6 +54,10 @@ class ActivitiesController < ApplicationController
   
   def show
     @activity = Activity.find(params[:id])
+     respond_to do |format|
+      format.html
+      format.json { render json: @activity.as_json }
+    end
   end
 
   def edit

@@ -23,10 +23,15 @@ class Activity < ActiveRecord::Base
       case options[:owned_by]
       when "Me"
         search_by_tags_me(options[:search], options[:current_user])
-      when "All users"
+      else
         search_by_tags_all(options[:search])
-      else 
-        search_by_tags_my_depts(options[:search], options[:current_user])
+      end
+    when "Status"
+      case options[:owned_by]
+      when "Me"
+        search_by_status_me(options[:search], options[:current_user])
+      else
+        search_by_status_all(options[:search])
       end
     end
   end
@@ -96,25 +101,21 @@ class Activity < ActiveRecord::Base
     Tag.where(:tag => search).collect{|candidate| candidate.activities.where(:user_id => user.id)}.flatten
   end
 
-  def search_by_tags_all(search)
-    
+  # pretty much the same as above
+  def self.search_by_tags_all(search)
+    search = search.split(" ")
+    return [] if search == []
+    Tag.where(:tag => search).collect{|candidate| candidate.activities}.flatten
   end
 
-  def search_by_tags_my_depts(search)
-    
+  def self.search_by_status_me(search, user)
+    return [] if search == []
+    Activity.where(:status => search.capitalize, :user_id => user.id)
   end
 
-  def search_over_my_depts
-    
+  def self.search_by_status_all(search)
+    return [] if search == []
+    Activity.where(:status => search.capitalize)
   end
-
-  def search_over_all
-    
-  end
-
-  def search_over_current_user
-    
-  end
-
 
 end

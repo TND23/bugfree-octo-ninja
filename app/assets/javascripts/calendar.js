@@ -30,9 +30,11 @@ $(document).ready(function() {
     timeFormat: 'h:mm t{ - h:mm t} ',
     dragOpacity: "0.5",
     eventDrop: function(activity, dayDelta, minuteDelta, allDay, revertFunc) {
+
       return updateEvent(activity);
     },
     eventResize: function(activity, dayDelta, minuteDelta, revertFunc) {
+      // sendAjaxRequest(activity);
       return updateEvent(activity);
     }
   });
@@ -48,4 +50,3 @@ updateEvent = function(the_activity) {
     }
   });
 };
-

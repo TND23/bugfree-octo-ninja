@@ -6,6 +6,9 @@ class CreateActivity < ActiveRecord::Migration
       t.text :content
       t.string :overview, :null => false
       t.integer :user_id, :null => false
+      t.string :status, :default => 'new', :null => false
+      t.datetime :started, :null => false
+      t.datetime :finished
       t.timestamp
     end
   end

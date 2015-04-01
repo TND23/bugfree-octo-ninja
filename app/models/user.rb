@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 
-  attr_accessible :username, :password, :admin
+  attr_accessible :username, :password
   attr_reader :password
 
   validates :password_digest, :presence => true

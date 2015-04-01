@@ -28,7 +28,9 @@ module ActivitiesHelper
     year = params_list["started(1i)"].to_i
     month = params_list["started(2i)"].to_i
     day = params_list["started(3i)"].to_i
-    Date.new(year,month,day)
+    hour = params_list["started(4i)"].to_i
+    minute = params_list["started(5i)"].to_i
+    DateTime.new(year,month,day,hour,minute)
   end
 
   def finish_date
@@ -36,11 +38,15 @@ module ActivitiesHelper
     year = params_list["finished(1i)"].to_i
     month = params_list["finished(2i)"].to_i
     day = params_list["finished(3i)"].to_i
+    hour = params_list["finished(4i)"].to_i
+    minute = params_list["finished(5i)"].to_i
     if year == 0 || month == 0 || day == 0
       return nil
     else
-      date = Date.new(year,month,day)
-      return date
+      hour ||= 0
+      minute ||= 0
+      dt = DateTime.new(year,month,day,hour,minute)
+      return dt
     end
   end
 

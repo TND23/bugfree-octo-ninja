@@ -1,0 +1,83 @@
+/* poached from http://www.sanwebe.com/2014/08/css-html-forms-designs */
+.nice-form{
+    max-width:400px;
+    margin:50px auto;
+    background:#fff;
+    border-radius:2px;
+    padding:20px;
+}
+.nice-form select{
+    max-width: 200px;
+}
+.nice-form h1{
+    display: block;
+    text-align: center;
+    padding: 0;
+    margin: 0px 0px 20px 0px;
+    color: #5C5C5C;
+    font-size:x-large;
+}
+.nice-form ul{                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+    list-style:none;
+    padding:0;
+    margin:0;  
+}
+.nice-form li{
+    display: block;
+    padding: 9px;
+    border:1px solid #DDDDDD;
+    margin-bottom: 25px;
+    border-radius: 3px;
+}
+.nice-form li:last-child{
+    border:none;
+    margin-bottom: 0px;
+    text-align: center;
+}
+.nice-form li > label{
+    display: block;
+    float: left;
+    margin-top: -19px;
+    background: #FFFFFF;
+    height: 18px;
+    /*padding: 2px 5px 2px 5px;*/
+    color: #B9B9B9;
+    overflow: hidden;
+}
+.nice-form input[type="text"],
+.nice-form input[type="datetime"],
+.nice-form input[type="search"],
+.nice-form input[type="password"],
+.nice-form textarea
+{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100%;
+    display: block;
+    outline: none;
+    border: none;
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    padding: 0;
+}
+
+.nice-form textarea{
+    resize:none;
+}
+
+#hidden-form{
+    display: none;
+    height: 486px;
+    width: 400px;
+    background-color: white;
+    z-index:  999;
+    position: fixed;
+    left: 40%;
+    bottom: 10%;                
+}
+
+#hidden-form div{
+
+}

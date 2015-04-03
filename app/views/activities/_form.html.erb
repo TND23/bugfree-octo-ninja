@@ -1,21 +1,40 @@
+<div class = "nice-form">
 <%= form_for @activity do |f| %>
-	<%= f.label :tag %> 
-	<%= f.text_field :tag %>
+	<ul>
+		<li>
+			<%= f.label :tag %> 
+			<%= f.text_field :tag %>
+		</li>
 
-	<%= f.label :overview %> 
-	<%= f.text_field :overview %>
+		<li>
+			<%= f.label :overview %> 
+			<%= f.text_field :overview %>
+		</li>
 
-	<%= f.label :status %> 
-	<%= f.select :status, options_for_select(['New', 'In Progress', 'Completed']) %>
+		<li>
+			<%= f.label :content %> 
+			<%= f.text_area :content, :onkeyup => "changeSize(this);" %>
+		</li>
 
-	<%= f.label :started %>
-	<%= f.datetime_select(:started, :default => {:hour => 12, :minute => 0}) %>
- 
-	<%= f.label :finished %>
-	<%= f.datetime_select :finished, :include_blank => true %>
-	<br>
-	<%= f.label :content %> 
-	<%= f.text_area :content %>
-	<br>
-	<%= f.submit %>
+		<li>
+			<%= f.label :status %> 
+			<%= f.select :status, options_for_select(['New', 'In Progress', 'Completed']) %>
+		</li>
+
+		<li>
+			<%= f.label :started %>
+			<%= f.datetime_select(:started, :default => {:hour => 12, :minute => 0}) %>
+	 	</li>
+	 	
+	 	<li>
+			<%= f.label :finished %>
+			<%= f.datetime_select :finished, :include_blank => true %>
+		</li>
+
+		<li>
+			<%= f.submit %>
+		</li>
+	</ul>
 <% end %>
+<div>
+

@@ -16,12 +16,16 @@ class ActivitiesController < ApplicationController
 
   def update
     @activity = Activity.find(params[:id])
-    if @activity.update_attributes(params[:activity])
-      redirect_to @activity
+    if params[:activity]
+      if @activity.update_attributes(params[:activity])
+        if @activity.save 
+           redirect_to activity_url(@activity)
+        end
+      end
     else 
-      binding.pry
+
       respond_to do |format|
-        format.js { render @activity }
+        format.js 
         format.json { render :json => @activity.errors, :status => :unprocessable_entity }
       end
     end
@@ -47,7 +51,7 @@ class ActivitiesController < ApplicationController
     # else @activites = Activity.all
     respond_to do |format|
       format.html
-      format.json { render json: @activities.as_json }
+      format.json { render :json => @activities.as_json }
     end
     
   end

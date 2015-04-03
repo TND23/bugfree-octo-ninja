@@ -1,6 +1,6 @@
 class Activity < ActiveRecord::Base
 
-  attr_accessible :tag, :content, :status, :overview, :started, :finished
+  attr_accessible :tag, :content, :status, :overview, :started, :finished, :start, :finish
   # each activity should belong to a user since two people shouldn't
   # be doing the exact same thing. If multiple people are doing similar
   # things on a project, this can be extended by adding a subActivity class
@@ -39,17 +39,17 @@ class Activity < ActiveRecord::Base
   # necessary for full_calendar
   def as_json
     {
+      :id => self.id,
+      :current_state => self.status,
       :title => self.overview,
       :tag => self.tag,
+      :long_description => self.content,
       :editable => true,
-      :content => self.content,
-      :status => self.status,
       :start => self.started,
       :finish => self.finished,
+      :end => self.finished,
       :user_id => self.user.id,
       :allDay => false,
-      :recurring => false,
-      :tagged => self.tagged,
       :url => Rails.application.routes.url_helpers.activity_path(id)  
     }
   end

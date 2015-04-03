@@ -1,1 +1,55 @@
-<div id='calendar' class='fullCalendar'></div>
+<div id='calendar' class='fullCalendar'>
+
+	<div class = 'icon'>
+		<div class = 'lid'></div>
+		<div class = 'lidcap'></div>
+		<div class = 'bin'></div>
+	</div>
+</div>
+
+<div id='overlay' onclick="vanish(this); vanishForm();"></div>
+<div id="hidden-form">
+	<div id = "temp-form" class="nice-form">
+		<ul>
+			<li>
+				<label for="activity_tag">Tag</label>
+				<input id="activity_tag"></input>
+			</li>
+			<li>
+				<label for="activity_overview">Overview</label>
+				<input id="activity_overview"></input>
+			</li>
+			<li>
+				<label for="activity_content">Content</label>
+				<input id="activity_content"></input>
+			</li>
+			<li>
+				<label for="activity_status">Status</label>
+				<select id="activity_status">
+					<option value="New">New</option>
+					<option value="In Progress">In Progress</option>
+					<option value="Completed">Completed</option>
+				</select>
+			</li>
+			<li>
+				<button type="button" id="submit-hidden-form">Change</button>
+			</li>
+
+		</ul>
+	</div>
+<div>
+
+
+
+<script type="text/javascript">
+	function vanish(el){
+		el.style.display = "none";
+	};
+
+	function vanishForm(){
+		var parent = document.getElementById("hidden-form");
+		parent.style.display = "none";
+	};
+
+
+</script>

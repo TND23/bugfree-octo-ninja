@@ -77,6 +77,9 @@ GEM
     jquery-ui-rails (4.1.2)
       railties (>= 3.1.0)
     json (1.8.2)
+    kaminari (0.16.3)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -158,6 +161,7 @@ DEPENDENCIES
   jquery-rest-rails
   jquery-ui-rails
   json
+  kaminari
   pry-debugger
   pry-doc
   pry-rails

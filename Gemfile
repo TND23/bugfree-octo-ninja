@@ -9,7 +9,7 @@ gem 'pry-rails'
 gem 'pry-doc'
 gem 'pry-debugger'
 gem 'json'
-
+gem 'kaminari'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

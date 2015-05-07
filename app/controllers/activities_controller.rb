@@ -65,7 +65,8 @@ class ActivitiesController < ApplicationController
     # we do not use Activity.where(:user_id => current_user.id) because we want to be able to look
     # at other users calendars.
     # else @activites = Activity.all
-    @activities = Activity.where(:user_id => params["user_id"]).all
+    @activities = Activity.where(:user_id => params["user_id"]).order(:started).page params[:page]
+    # binding.pry
     @user = current_user
     respond_to do |format|
       format.html

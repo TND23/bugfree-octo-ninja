@@ -21,6 +21,10 @@ class Activity < ActiveRecord::Base
     :message => "contained something suspicious."
   }
 
+  default_scope {order('started DESC')}
+
+  paginates_per 25
+
   def self.search(options)
    
     case options[:search_by]

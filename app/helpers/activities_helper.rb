@@ -6,19 +6,25 @@ module ActivitiesHelper
 
   def search
     # sample params hash:
-    # {"utf8"=>"✓", "search"=>"", "search_by"=>"Tag", "owned_by"=>"Me", "commit"=>"OK", "action"=>"search", "controller"=>"activities"}
     search_relevant_params = {:search => params[:search],:search_by => params[:search_by], :owned_by => params[:owned_by], :current_user => current_user}
     @activities = Activity.search(search_relevant_params)
+  end
+
+  def add_non_whitelisted_properties(activity)
+    activity.add_tags
+    activity.user = current_user
+    activity.tagged = tagged?
   end
 
   private
 
   def tagged?
-    if params[:activity][:tag].empty?
-      return false
-    else 
-      return true
-    end
+    params[:activity][:tag].any?
+  end
+
+  def create_notice(activity)
+    notice = Notice.populate_default_activity_notice(activity)
+    notice.save
   end
 
   # date selectors pass in 3 parameters
@@ -51,22 +57,18 @@ module ActivitiesHelper
   end
 
   # make sure that the overview is a string
-  def sanitize_overview
-    params[:activity][:overview].to_s
-  end
-
-  def sanitize_tag
-    params[:activity][:tag].to_s
-  end
-
-  def sanitize_content
-    params[:activity][:content].to_s
+  ["overview", "tag", "content", "kind"].each do |el|
+    define_method "sanitize_#{el}" do
+      params[:activity][el.intern].to_s
+    end
   end
 
   # create a nice params to pass in
   def wrap_params_into_nice_hash
     hash =
       {
+        "notify" => params[:activity][:notify],
+        "kind" => sanitize_kind,
         "overview" => sanitize_overview,
         "content" => sanitize_content,
         "tag" => sanitize_tag,
@@ -75,5 +77,4 @@ module ActivitiesHelper
         "status" => params[:activity][:status]
       }
   end
-
 end

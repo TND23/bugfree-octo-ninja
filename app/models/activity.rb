@@ -1,21 +1,26 @@
 class Activity < ActiveRecord::Base
 
-  attr_accessible :tag, :content, :status, :overview, :started, :finished, :start, :finish
+  attr_accessible :tag, :content, :status, :overview, :started, :finished, :start, :finish, :notify, :kind, :repeats, :repeats_freq
+
+  # we want an activity to be able to belong to a user or department
+  belongs_to :actionable, :polymorphic => true
   # each activity should belong to a user since two people shouldn't
   # be doing the exact same thing. If multiple people are doing similar
-  # things on a project, this can be extended by adding a subActivity class
-  # a has_many relation to a SubActivity class.
+  # things, it can belong to a department
   belongs_to :user
   # note that an activity has a tag, which is just a string, and also has tags,
   # which are searchable parameters created from the tag string
   has_and_belongs_to_many :tags
+  belongs_to :department
+  has_many :notices, :dependent => :destroy
   scope :are_tagged, where(:tagged => true)
-  # provide ability to search for arbitrary tag
-  # tags.split to array-ify the user input
-  # old 1.9 syntax: lambda does not work :p
-  scope :with_tag, ->(tag){ where(:tag => tag.split(" ")) }
-  
-  # {"utf8"=>"✓", "search"=>"", "search_by"=>"Tag", "owned_by"=>"Me", "commit"=>"OK", "action"=>"search", "controller"=>"activities"}
+
+  # some html displayed attributes will exist, so we don't want any script nastiness
+  validates :content, :format => {
+    :without =>  /\A.*<script>.*\z/,
+    :message => "contained something suspicious."
+  }
+
   def self.search(options)
    
     case options[:search_by]
@@ -35,11 +40,27 @@ class Activity < ActiveRecord::Base
       end
     end
   end
-  # "Me", "All users", "Users in my departments"
-  # necessary for full_calendar
+
+  # allows these to be downloaded as csvs i guess.
+  def self.to_csv(str,options={})
+    # list the columns which we will be retrieving data for
+    column_names = ["tag", "content", "status", "overview", "started", "finished"]
+    CSV.generate(options) do |csv|
+      #binding.pry
+      csv << column_names
+      str.each do |activity|
+        csv << activity.attributes.values_at(*column_names)
+      end
+    end
+  end
+  # hash to put it important details in json form, which will be used in the ajax methods in full_calendar
   def as_json
+    # if it belongs to a department, user_id = 0
+    user_id = self.user ? self.user.id : 0  
     {
       :id => self.id,
+      :notify => self.notify,
+      :kind => self.kind,
       :current_state => self.status,
       :title => self.overview,
       :tag => self.tag,
@@ -48,10 +69,17 @@ class Activity < ActiveRecord::Base
       :start => self.started,
       :finish => self.finished,
       :end => self.finished,
-      :user_id => self.user.id,
+      :department_id => self.department_id,
+      :user_id => user_id,
       :allDay => false,
-      :url => Rails.application.routes.url_helpers.activity_path(id)  
+      :url => Rails.application.routes.url_helpers.activity_path(id) 
     }
+  end
+
+  def as_dept_json
+    json_object = self.as_json
+    json_object[:url] = Rails.application.routes.url_helpers.department_department_activity_path(self[:department_id], self[:id])
+    json_object
   end
 
   # split the tags and then set the 'tagged' boolean (to speed up search)
@@ -62,6 +90,12 @@ class Activity < ActiveRecord::Base
     else
       # try and add relations to tags
       add_tag_associations(tags)
+    end
+  end
+
+  def destroy_notices_if_completed(current_status)
+    if self.notices.any? && current_status == "Completed"
+      self.notices.delete_all
     end
   end
 

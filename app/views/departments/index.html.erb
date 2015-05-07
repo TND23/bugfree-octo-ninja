@@ -5,12 +5,10 @@
 	</tr>
 	<% @departments.each do |d| %>
 		<tr>
-			<td> <%=h d.dept_name %> </td>
+			<td> <%= link_to d.dept_name, department_path(d.id) %> </td>
 			<td> 
-				<% d.users.each do |u| %> 
-					<!-- link to this users calendar -->
-					<%= u.username %>
-				<% end %>
+				<% all_u = d.users.collect{|u| u.username}.join(", ") %>
+				<%= all_u %>
 			</td>
 		</tr>	
 	<% end %>

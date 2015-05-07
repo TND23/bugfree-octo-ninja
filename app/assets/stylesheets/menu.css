@@ -5,6 +5,7 @@
   padding: 6px 6px 4px 6px;
   height: 40px;
   line-height: 100%;
+  min-width: 546px;
   border-radius: 3px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -132,4 +133,43 @@
 }
 * html #menu-bar {
   height: 1%;
+}
+
+#menu-bar ul {
+  position: absolute;
+  white-space: nowrap;
+  border-bottom: 5px solid  orange;
+  z-index: 1;
+  left: -99999em;
+}
+#menu-bar > li:hover > ul {
+  left: auto;
+  padding-top: 5px  ;
+  min-width: 100%;
+}
+#menu-bar > li li ul {  border-left:1px solid #fff;}
+
+#menu-bar > li li:hover > ul { 
+  left: 100%;
+  top: -1px;
+}
+
+/* arrow hover styling */
+
+#menu-bar > li > a:first-child:nth-last-child(2):before { 
+  border-top-color: #aaa; 
+}
+#menu-bar > li:hover > a:first-child:nth-last-child(2):before {
+  border: 5px solid transparent; 
+  border-bottom-color: orange; 
+  margin-top:-5px
+}
+#menu-bar li li > a:first-child:nth-last-child(2):before {  
+  border-left-color: #aaa; 
+  margin-top: -5px
+}
+#menu-bar li li:hover > a:first-child:nth-last-child(2):before {
+  border: 5px solid transparent; 
+  border-right-color: orange;
+  right: 10px; 
 }

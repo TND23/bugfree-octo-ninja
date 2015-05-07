@@ -1,4 +1,8 @@
-p.warning
+p.warning, p.error
 {
 	color: #DF0101;
+}
+.container{
+	position: absolute;
+	width: 100%;
 }

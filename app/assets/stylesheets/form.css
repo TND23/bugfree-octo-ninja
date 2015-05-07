@@ -78,6 +78,9 @@
     bottom: 10%;                
 }
 
-#hidden-form div{
-
+li.required{
+    color:red;
+}
+.required label > li.required {
+    color: red;
 }

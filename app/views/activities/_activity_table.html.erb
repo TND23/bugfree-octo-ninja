@@ -10,9 +10,14 @@
 	</tr>
 	<% @activities.each do |el| %>
 		<tr>
-			<td> <%= link_to el.overview, activity_path(el.id) %> </td>
+			<td> <%= link_to el.overview, edit_activity_path(el.id) %> </td>
 			<td> <%=h el.tag %> </td>
-			<td> <%=h el.content %> </td>
+			<!-- div neccessary because of some css bull where overflow doesn't work well with tables. -->
+			<td>
+				<div> 
+					<%= el.content.html_safe %> 
+				</div>
+			</td>
 			<td> <%=h el.started %> </td>
 			<% if el.finished.nil? %>
 				<td> N/A </td>

@@ -1,3 +1,4 @@
 <h3><%= @user.username %>'s activities</h3>
-<h3><%= link_to "Home", user_path(@user.id) %></h3>
+<% activities_route =  user_activities_url(current_user) %>
+<h3><%= link_to "Download activities as CSV", activities_route + ".csv" %>
 <%= render "activity_table" %>

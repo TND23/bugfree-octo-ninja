@@ -3,12 +3,21 @@
 		<%= flash[:warning] %>
 	</p>
 <% end %>
-<%= render "new_dept_form" %>
-<% if current_user.departments.empty? %>
-	<h3> You are not a member of any departments </h3>
-<% else %>
-	<h4> <%=h current_user.username %>'s departments: </h4>
-	<% current_user.departments.each do |d| %>
-		<p> <%=h d.dept_name %> </p>
+<%= render :partial => "departments/new_dept_form" %>
+<div class="left-container" style="float:left;">
+	<% if current_user.departments.empty? %>
+		<h3> You are not a member of any departments </h3>
+	<% else %>
+		<h4> <%=h current_user.username %>'s departments: </h4>
+		<% current_user.departments.each do |d| %>
+			<p> <%=h d.dept_name %> </p>
+		<% end %>
 	<% end %>
-<% end %>
+</div>
+<div class='notice-wrapper right-container'>
+	<h3>Notices</h3>
+	<div class="notice-container">
+
+		<%= render :partial => "notices/notices" %>
+	</div>
+</div>

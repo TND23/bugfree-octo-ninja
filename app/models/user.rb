@@ -11,20 +11,7 @@ class User < ActiveRecord::Base
 
   # this probably isn't the perfect place to use this, but it works.
   has_and_belongs_to_many :departments
-
-  has_many :activities do
-    # add in extra methods for the association to make querying easier
-    ["week", "month", "year"].each do |time_span|
-      # define find_over_this_week, find_over_this_month, etc.
-      define_method "find_over_this_#{time_span}" do
-        # rails helper 'beginning_of_week' etc.. will find beginning of week 
-        this_interval = Time.new.send("beginning_of_#{time_span}".intern)
-        # find all activities that exist in the (inclusive) range of:
-        # the beginning of the interval TO the end of the interval
-        find_by(:started => this_interval..this_interval.send("end_of_#{time_span}".intern))
-      end
-    end
-  end
+  has_many :activities, :as => :actionable, :dependent => :destroy
 
   # pass in the user credentials (password and username)
   # if the username exists, and the password is valid, good to go

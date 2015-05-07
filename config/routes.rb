@@ -5,8 +5,14 @@ Calendar::Application.routes.draw do
       get 'search', to: 'activities#search', :as => :search
     end
   end
+
   resources :tags
-  resources :departments, :except => [:destroy]
+  resources :departments, :except => [:destroy] do
+    # member do
+    #   post 'activities', :to => 'activities#create_department_activity', :as => :create_department_activity_for
+    # end
+    resources :department_activities
+  end
   # namespace :admin do
   #   resources :departments, :only => [:new, :create, :destroy]
   # end
@@ -14,6 +20,8 @@ Calendar::Application.routes.draw do
     member do
       put 'departments', :to => 'users#add_department', :as => :add_department_to
     end
+    resources :departments, :only => [:index]
+    resources :notices
     resources :activities, :only => [:index]
     resource :calendar, :only => [:show]  
   end

@@ -1,9 +1,11 @@
-<%= @activity.user.username %>
+
 <%= @activity.tag %>
 <%= @activity.overview %>
 <br/ >
 <%= @activity.started %>
 <%= @activity.status %>
 <br />
-<%= @activity.content %>
+<%= @activity.content.html_safe %>
 <%= link_to "Edit", edit_activity_path(@activity) %>
+
+<%= link_to "Destroy", activity_path, :method => :delete %>

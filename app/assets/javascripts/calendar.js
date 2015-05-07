@@ -1,5 +1,83 @@
 $(document).ready(function() {
-  return $('#calendar').fullCalendar({
+  // immediately load the calendarcreation function
+  // by waiting for the function to finish first,
+  // we let the calendar recieve json data from dynamic urls corresponding with
+  // the users departments
+  if (window.location.pathname.split("calendar").length > 1){
+    return asynchCalendarCreation();    
+  }
+});
+
+updateEvent = function(the_activity) {
+  // for justice.
+  $.ajax({
+    type: 'PUT',
+    dataType: 'json',
+    url: the_activity.url,
+    data: {
+      activity: {
+        content: the_activity.long_description, 
+        tag: the_activity.tag, 
+        status: the_activity.current_state, 
+        overview: the_activity.title, 
+        started: the_activity.start, 
+        finished: the_activity.end 
+      }, _method : 'put'
+    },
+    error: function(data,resp,error){
+      console.log(resp); console.log(error);
+    },
+    success: function(){ console.log("SUCCESS"); }
+  });
+
+};
+
+// send a get request to the path users/(curr_id)/departments
+// and shovel in the ids of all departments found there
+// once this is done, create the json urls that will be used by the event objects
+asynchCalendarCreation = function(){
+  var department_ids = [];
+  $.ajax({
+    type: 'GET',
+    dataType: 'json',
+    url: '/users/' + window.location.pathname.split("/")[2] + '/departments',
+    error: function(){
+      console.log("HERE");
+    },
+    success: function(data){
+      data.forEach(function(datum){
+        department_ids.push(datum.id);
+      });
+      return createEventSources(department_ids);
+    }
+  });
+};
+
+createEventSources = function(department_ids){
+  var depts = department_ids;
+  var eventSources = [
+    {
+      url: '/users/' +  window.location.pathname.split("/")[2] + '/activities',
+      color: '#3B91AD',
+      textColor: 'black'
+    }
+  ];
+  
+  depts.forEach(function(dpt){
+    var newObj = {
+      url: '/departments/' + dpt + '/department_activities',
+      color: 'red',
+      textColor: 'black'
+    };
+    eventSources.push(newObj);
+  });
+  return $('#calendar').fullCalendar(createCalendarObject(eventSources));
+};
+
+createCalendarObject = function(eventSources){
+  var eventSources = eventSources; 
+  var obj = 
+  {
     editable: true,
     header: {
       left: 'prev,next',
@@ -11,16 +89,9 @@ $(document).ready(function() {
     height: 500,
     slotMinutes: 60,
     ignoreTimezone: false,
-    eventSources: [
-      {
-        // magic number which is liable to change if routes get moved around
-        // this is built this way so users can look at each others calendars
-        // since now the data will fetch json data from the url in the window
-        url: '/users/' +  window.location.pathname.split("/")[2] + '/activities',
-        color: '#3B91AD',
-        textColor: 'black'
-      }
-    ],
+
+    eventSources: eventSources,
+
     // when rendering, the elements title will display the tags
     eventRender: function(event, element, view) {
       //console.log(event);
@@ -48,37 +119,11 @@ $(document).ready(function() {
       // sendAjaxRequest(activity);;
       return updateEvent(activity);
     }
-  });
-});
+  };
 
-updateEvent = function(the_activity) {
-  //debugger;
-  // javascript assumes that + is trying to concat the string. 
-  // to get around this, we substract the negative.
-  // the_activity._start = the_activity.start = new Date(the_activity.start - (delta * -1));
-  // the_activity._end = the_activity.end = new Date(the_activity.end - (delta * -1));
-  // debugger;
-  $.ajax({
-    type: 'PUT',
-    dataType: 'json',
-    url: the_activity.url,
-    data: {
-      activity: {
-        content: the_activity.long_description, 
-        tag: the_activity.tag, 
-        status: the_activity.current_state, 
-        overview: the_activity.title, 
-        started: the_activity.start, 
-        finished: the_activity.end 
-      }, _method : 'put'
-    },
-    error: function(data,resp,error){
-      console.log(resp); console.log(error);
-    },
-    success: function(){ console.log("SUCCESS"); }
-  });
+  return obj; 
+}
 
-};
 
 renderForm = function(activity){
   var hiddenForm = document.getElementById("hidden-form");
@@ -105,9 +150,10 @@ generateForm = function(activity, callback){
 listenToClick = function(activity){
   // take current form values and set them to whatever.
   $("#submit-hidden-form").click(function(){
+    // debugger;
     activity.tag = document.getElementById("activity_tag").value;
     activity.overview = document.getElementById("activity_overview").value;
-    activity.content = document.getElementById("activity_content").value;
+    activity.long_description = document.getElementById("activity_content").value;
     activity.status = document.getElementById("activity_status").value;
     updateEvent(activity);
   })

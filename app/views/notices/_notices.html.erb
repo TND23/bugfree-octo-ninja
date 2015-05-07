@@ -1,0 +1,20 @@
+<ul class="no-list">
+	<%  unless current_user.activities.empty? %>
+		<% current_user.activities.each do |activity| %>
+			<% notices = activity.notices %>
+			<% unless notices.empty? %>
+				<% notices.each do |notice| %>
+					<li class="notecard">
+						<a href="#" class="notecard-a">
+							<% lines = notice.content.split("\n") %>
+							<h4><%=h notice.title %></h4>
+							<% lines.each do |line| %>
+								<p class='notecard-line'><%= line %></p>
+							<% end %>
+						</a>
+					</li>
+				<% end %>
+			<% end%>
+		<% end %>
+	<% end %>
+</ul>

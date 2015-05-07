@@ -1,19 +1,29 @@
-<div class = "nice-form">
+<div class="nice-form">
 <%= form_for @activity do |f| %>
 	<ul>
 		<li>
 			<%= f.label :tag %> 
-			<%= f.text_field :tag %>
+			<%= f.text_field :tag, :class => 'tooltip', :title => "You can search for activities by tags. Accepts letters, numbers, spaces and underscores." %>
 		</li>
 
-		<li>
-			<%= f.label :overview %> 
-			<%= f.text_field :overview %>
+		<li class='required'> 
+			<%= f.label :overview, :class => 'required' %> 
+			<%= f.text_field :overview, :class => 'tooltip', :title => "A quick synopsis of the activity. Required."  %>
 		</li>
 
+		<% if flash[:error] %>
+			<% flash[:error].full_messages.each do |msg| %>
+				<p class='error'><%= msg %></p>
+			<% end %>
+		<% end %>
 		<li>
 			<%= f.label :content %> 
 			<%= f.text_area :content, :onkeyup => "changeSize(this);" %>
+		</li>
+
+		<li style="float:right; border:none;" class="tooltip" title="If selected, a notecard will appear on your homepage reminding you to complete this activity.">
+				<%= f.label :notify, :title => ""%> 
+				<%= f.check_box :notify, :title => "" %>
 		</li>
 
 		<li>
@@ -21,11 +31,27 @@
 			<%= f.select :status, options_for_select(['New', 'In Progress', 'Completed']) %>
 		</li>
 
+	<!-- 	<li style="float:right; border:none;">
+				<%= f.label "Repeats Every nth day" %> 
+				<%= f.text_field :repeats_freq, :placeholder => 7 %>
+		</li>
+
+		<li>
+			<%= f.label :repeats %> 
+			<%= f.check_box :repeats %>
+		</li>
+ -->
+
 		<li>
 			<%= f.label :started %>
 			<%= f.datetime_select(:started, :default => {:hour => 12, :minute => 0}) %>
 	 	</li>
-	 	
+		
+		<li>
+			<%= f.label :kind %> 
+			<%= f.text_field :kind %>
+		</li>
+
 	 	<li>
 			<%= f.label :finished %>
 			<%= f.datetime_select :finished, :include_blank => true %>
@@ -34,7 +60,22 @@
 		<li>
 			<%= f.submit %>
 		</li>
+
+		<% if params[:controller] == "departments" %>
+			<% z = Department.find(params[:id]).users.collect{|n| n.username} %>
+			<%= z %>
+			<%= f.hidden_field :department_id, :value => params[:id] %>
+		<% end %>
+	
+	<% end %>
 	</ul>
-<% end %>
 <div>
 
+<script>
+	//change size. poached from http://www.sanwebe.com/2014/08/css-html-forms-designs
+	function changeSize(el) {
+	    el.style.height = "40px";
+	    el.style.height = (el.scrollHeight) + "px";
+	    return false;
+	}
+</script>

@@ -25,6 +25,7 @@
 }
 .ActivityTable table
 {
+	table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
 	width:100%;
@@ -120,4 +121,11 @@
 .ActivityTable tr:first-child td:last-child
 {
 	border-width:0px 0px 1px 1px;
+}
+.ActivityTable div	
+{
+	max-height: 50px;
+	max-width: 328px;
+	overflow: auto;
+	text-overflow: ellipsis;
 }

@@ -1,18 +1,36 @@
 <ul id="menu-bar">
- <li class="active"><%= link_to "Home", user_url(current_user) %></li>
- <li><a href="#">Activities</a>
-  <ul>
-   <li><%= link_to "My Activities",  user_activities_url(current_user) %></li>
-   <li><%= link_to "New Activity", new_activity_url %></li>
-   <li><%= link_to "Search Activities", search_activities_url %></li>
-  </ul>
+  <li><%= link_to "Home", user_url(current_user) %></li>
+  
+  <li><a href="#">Activities</a>
+    <ul>
+      <li id="m-act"><%= link_to "My Activities",  user_activities_url(current_user) %></li>
+      <li id="n-act"><%= link_to "New Activity", new_activity_url %></li>
+      <li id="s-act"><%= link_to "Search Activities", search_activities_url %></li>
+    </ul>
+  </li>
+  
+  <li><a href="#">Departments</a>
+  
+    <ul>
+      <li><%= link_to "New Department", new_department_url %></li>
+      <li> <a href="#">My Departments</a> 
+        <ul>
+          <% current_user.departments.each do |dpt| %>
+            <li>
+              <%= link_to "#{dpt.dept_name} activities", department_department_activities_path(dpt.id) %>
+            </li>
+          <% end %>
+        </ul>
+      </li>
+    </ul>
  </li>
- <li><a href="#">Departments</a>
-  <ul>
-   <li><%= link_to "New Department", new_department_url %></li>
-   <li><%= link_to "My Departments", departments_url %></li>
-  </ul>
- </li>
+
  <li><%= link_to "Calendar", user_calendar_url(current_user) %></li>
  <li class="active" style="float:right;"><%= link_to "Logout", session_url, :method => :delete %></li>
 </ul>
+
+<script type="text/javascript">
+	
+</script>
+
+<!-- departments_url -->

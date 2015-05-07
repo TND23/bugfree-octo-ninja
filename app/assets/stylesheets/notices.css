@@ -1,0 +1,48 @@
+.notice-container{
+	height: 700px;
+	border-right: 100px none;
+	background: none repeat scroll 0% 0% #1C146B;
+	position: relative;
+	width: 325px;
+	margin-right: 6%;
+	margin-left: auto;
+	box-shadow: 2px 2px 3px #666;
+	border: 1px solid #6D6D6D;	
+}
+
+.right-container{
+	margin-right: 5%;
+	margin-left: auto;
+	float: right;
+}
+
+.left-container{
+	margin-left:0px;
+	float: left;
+}
+
+.notice-wrapper{
+	margin-left: 475px;
+}
+
+
+ul li a.notecard-a {
+  text-decoration:none;
+  color:#000;
+  background:#ffc;
+  display:block;
+  height:100px;
+  width:225px;
+  padding:1em;
+  margin-bottom: 5px;
+}
+
+.no-list{
+	list-style: none;
+}
+
+p.notecard-line, .notecard-a h4{
+	padding: 0;
+	margin:0;
+}
+

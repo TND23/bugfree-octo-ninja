@@ -7,10 +7,8 @@ class Tag < ActiveRecord::Base
     :message => "The tag was not of the form neccessary. Tags cannot contain special characters except underscore _ ."
   }
  
-  # rails takes care of this pluralization correctly for now
+  # rails takes care of this pluralization correctly as of having written this
   has_and_belongs_to_many :activities
-  # ' OR 1=1 is invalid
-  # SELECT * FROM tabs where tab = '' )
 
 end
 
